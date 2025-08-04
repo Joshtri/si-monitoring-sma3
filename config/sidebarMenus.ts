@@ -1,0 +1,158 @@
+import { AcademicCapIcon, BookOpenIcon, CalendarDaysIcon, ChartBarIcon, ClipboardDocumentCheckIcon, DocumentChartBarIcon, ExclamationTriangleIcon, HomeModernIcon, IdentificationIcon, SparklesIcon, UsersIcon } from "@heroicons/react/24/outline";
+import { HomeIcon, RectangleGroupIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+
+export interface MenuItem {
+    title: string;
+    href: string;
+    icon: React.ElementType;
+    iconSolid: React.ElementType;
+    badge?: string | number;
+    submenu?: {
+        title: string;
+        href: string;
+        icon?: React.ElementType;
+    }[];
+}
+
+export const sidebarMenus: Record<string, MenuItem[]> = {
+    ADMIN: [
+        {
+            title: "Dashboard",
+            href: "/admin/dashboard",
+            icon: HomeIcon,
+            iconSolid: HomeModernIcon,
+        },
+        {
+            title: "Manajemen Akun",
+            href: "/admin/users",
+            icon: UserCircleIcon,
+            iconSolid: UserCircleIcon,
+        },
+        {
+            title: "Manajemen Guru",
+            href: "/admin/guru",
+            icon: AcademicCapIcon,
+            iconSolid: AcademicCapIcon,
+        },
+        {
+            title: "Manajemen Orang Tua",
+            href: "/admin/orang-tua",
+            icon: UsersIcon,
+            iconSolid: UsersIcon,
+        },
+        {
+            title: "Manajemen Siswa",
+            href: "/admin/siswa",
+            icon: IdentificationIcon,
+            iconSolid: IdentificationIcon,
+        },
+        {
+            title: "Tahun Ajaran",
+            href: "/admin/tahun-ajaran",
+            icon: CalendarDaysIcon,
+            iconSolid: CalendarDaysIcon,
+        },
+        {
+            title: "Kelas",
+            href: "/admin/kelas",
+            icon: RectangleGroupIcon,
+            iconSolid: RectangleGroupIcon,
+        },
+        {
+            title: "Jadwal Pelajaran",
+            href: "/admin/jadwal-pelajaran",
+            icon: BookOpenIcon,
+            iconSolid: BookOpenIcon,
+        },
+        {
+            title: "Presensi Siswa",
+            href: "/admin/presensi-siswa",
+            icon: ClipboardDocumentCheckIcon,
+            iconSolid: ClipboardDocumentCheckIcon,
+        },
+        {
+            title: "Nilai Siswa",
+            href: "/admin/nilai-siswa",
+            icon: ChartBarIcon,
+            iconSolid: ChartBarIcon,
+        },
+        {
+            title: "Pelanggaran Siswa",
+            href: "/admin/pelanggaran-siswa",
+            icon: ExclamationTriangleIcon,
+            iconSolid: ExclamationTriangleIcon,
+        },
+        {
+            title: "Aktivitas Siswa",
+            href: "/admin/aktivitas-siswa",
+            icon: SparklesIcon,
+            iconSolid: SparklesIcon,
+        },
+        {
+            title: "Kelas & Jadwal",
+            href: "/admin/kelas-jadwal",
+            icon: RectangleGroupIcon,
+            iconSolid: RectangleGroupIcon,
+        },
+        {
+            title: "Mata Pelajaran",
+            href: "/admin/mata-pelajaran",
+            icon: BookOpenIcon,
+            iconSolid: BookOpenIcon,
+        },
+        {
+            title: "Presensi",
+            href: "/admin/presensi",
+            icon: ClipboardDocumentCheckIcon,
+            iconSolid: ClipboardDocumentCheckIcon,
+        },
+        // {
+        //     title: "Nilai Siswa",
+        //     href: "/admin/nilai",
+        //     icon: ChartBarIcon,
+        //     iconSolid: ChartBarIcon,
+        // },
+        {
+            title: "Pelanggaran",
+            href: "/admin/pelanggaran",
+            icon: ExclamationTriangleIcon,
+            iconSolid: ExclamationTriangleIcon,
+        },
+        {
+            title: "Aktivitas",
+            href: "/admin/aktivitas",
+            icon: SparklesIcon,
+            iconSolid: SparklesIcon,
+        },
+        {
+            title: "Laporan",
+            href: "/admin/laporan",
+            icon: DocumentChartBarIcon,
+            iconSolid: DocumentChartBarIcon,
+        }
+    ],
+    GURU: [
+        {
+            title: "Dashboard",
+            href: "/guru/dashboard",
+            icon: HomeIcon,
+            iconSolid: HomeModernIcon,
+        }
+    ],
+    WALI_KELAS: [
+        {
+            title: "Dashboard",
+            href: "/wali-kelas/dashboard",
+            icon: HomeIcon,
+            iconSolid: HomeModernIcon,
+        }
+    ],
+    ORANG_TUA: [
+        {
+            title: "Dashboard",
+            href: "/orang-tua/dashboard",
+            icon: HomeIcon,
+            iconSolid: HomeModernIcon,
+        }
+    ],
+};
