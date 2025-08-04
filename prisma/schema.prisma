@@ -1,0 +1,192 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ORANG_TUA
+  WALI_KELAS
+  GURU
+  ADMIN
+}
+
+enum JenisKelamin {
+  LAKI_LAKI
+  PEREMPUAN
+}
+
+enum AbsenStatus {
+  HADIR
+  SAKIT
+  IZIN
+  ALPHA
+}
+
+enum JenisNilai {
+  TUGAS
+  ULANGAN
+  UTS
+  UAS
+}
+
+enum JenisAktivitas {
+  EKSTRAKURIKULER
+  ORGANISASI
+  LOMBA
+}
+
+model User {
+  id          String  @id @default(dbgenerated("concat('usr_', gen_random_uuid())")) @db.VarChar(40)
+  username    String  @unique
+  password    String
+  role        Role
+  email       String? @unique
+  phoneNumber String? @unique
+
+  guru     Guru?
+  orangTua OrangTua?
+}
+
+// GuruMapel ≠ Jadwal. Ini bukan jadwal. Tapi ini adalah:
+// ✅ Pendataan relasi siapa guru yang boleh/mampu mengajar mata pelajaran tertentu.
+model Guru {
+  id     String @id @default(uuid())
+  nama   String
+  nip    String @unique
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id])
+
+  mapel     GuruMapel[]
+  waliKelas KelasTahunAjaran[]
+  // jadwal    JadwalPelajaran[]
+}
+
+model GuruMapel {
+  id              String            @id @default(uuid())
+  guru            Guru              @relation(fields: [guruId], references: [id])
+  guruId          String
+  mataPelajaran   MataPelajaran     @relation(fields: [mataPelajaranId], references: [id])
+  mataPelajaranId String
+  JadwalPelajaran JadwalPelajaran[]
+}
+
+model OrangTua {
+  id     String  @id @default(uuid())
+  nama   String
+  userId String  @unique
+  user   User    @relation(fields: [userId], references: [id])
+  anak   Siswa[]
+}
+
+model Siswa {
+  id           String       @id @default(dbgenerated("concat('swa_', gen_random_uuid())")) @db.VarChar(40)
+  namaDepan    String
+  namaTengah   String?
+  namaBelakang String?
+  nisn         String?      @unique
+  nis          String?      @unique
+  jenisKelamin JenisKelamin
+  alamat       String?
+  orangTuaId   String
+  orangTua     OrangTua     @relation(fields: [orangTuaId], references: [id])
+
+  siswaKelas  SiswaKelas[]
+  nilai       Nilai[]
+  pelanggaran Pelanggaran[]
+  aktivitas   Aktivitas[]
+}
+
+model SiswaKelas {
+  id                 String           @id @default(uuid())
+  siswa              Siswa            @relation(fields: [siswaId], references: [id])
+  siswaId            String
+  kelasTahunAjaran   KelasTahunAjaran @relation(fields: [kelasTahunAjaranId], references: [id])
+  kelasTahunAjaranId String
+
+  absen Absen[]
+}
+
+model TahunAjaran {
+  id           String             @id @default(uuid())
+  tahun        String
+  aktif        Boolean
+  mulaiGanjil  DateTime // ✅ 1 Juli 2025
+  selesaiGenap DateTime // ✅ 30 Juni 2026
+  kelasAktif   KelasTahunAjaran[]
+}
+
+model KelasTahunAjaran {
+  id            String            @id @default(uuid())
+  kelas         String
+  tahunAjaran   TahunAjaran       @relation(fields: [tahunAjaranId], references: [id])
+  tahunAjaranId String
+  waliKelas     Guru?             @relation(fields: [waliKelasId], references: [id])
+  waliKelasId   String?
+  siswa         SiswaKelas[]
+  jadwal        JadwalPelajaran[]
+}
+
+model MataPelajaran {
+  id        String            @id @default(uuid())
+  nama      String
+  aktif     Boolean           @default(true)
+  // jadwal    JadwalPelajaran[]
+  guruMapel GuruMapel[]
+}
+
+model JadwalPelajaran {
+  id                 String           @id @default(uuid())
+  kelasTahunAjaran   KelasTahunAjaran @relation(fields: [kelasTahunAjaranId], references: [id])
+  kelasTahunAjaranId String
+
+  hari               String
+  jamKe              Int
+
+  guruMapel          GuruMapel        @relation(fields: [guruMapelId], references: [id])
+  guruMapelId        String
+}
+
+
+model Absen {
+  id           String      @id @default(uuid())
+  siswaKelas   SiswaKelas  @relation(fields: [siswaKelasId], references: [id])
+  siswaKelasId String
+  guruId       String
+  tanggal      DateTime
+  status       AbsenStatus
+  keterangan   String?
+}
+
+model Nilai {
+  id       String     @id @default(uuid())
+  siswaId  String
+  siswa    Siswa      @relation(fields: [siswaId], references: [id])
+  mapel    String
+  jenis    JenisNilai
+  nilai    Int
+  semester String
+}
+
+model Pelanggaran {
+  id               String   @id @default(uuid())
+  siswaId          String
+  siswa            Siswa    @relation(fields: [siswaId], references: [id])
+  jenisPelanggaran String
+  tanggal          DateTime
+  poin             Int
+  tindakan         String
+}
+
+model Aktivitas {
+  id           String         @id @default(uuid())
+  siswaId      String
+  siswa        Siswa          @relation(fields: [siswaId], references: [id])
+  namaKegiatan String
+  jenis        JenisAktivitas
+  tanggal      DateTime
+  catatan      String?
+}
