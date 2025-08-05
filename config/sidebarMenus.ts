@@ -1,4 +1,4 @@
-import { AcademicCapIcon, BookOpenIcon, CalendarDaysIcon, ChartBarIcon, ClipboardDocumentCheckIcon, DocumentChartBarIcon, ExclamationTriangleIcon, HomeModernIcon, IdentificationIcon, SparklesIcon, UsersIcon } from "@heroicons/react/24/outline";
+import { AcademicCapIcon, BookOpenIcon, CalendarDaysIcon, CalendarIcon, ChartBarIcon, ClipboardDocumentCheckIcon, ClipboardDocumentListIcon, DocumentChartBarIcon, ExclamationTriangleIcon, HomeModernIcon, IdentificationIcon, SparklesIcon, UsersIcon } from "@heroicons/react/24/outline";
 import { HomeIcon, RectangleGroupIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 
 export interface MenuItem {
@@ -88,12 +88,12 @@ export const sidebarMenus: Record<string, MenuItem[]> = {
             icon: SparklesIcon,
             iconSolid: SparklesIcon,
         },
-        {
-            title: "Kelas & Jadwal",
-            href: "/admin/kelas-jadwal",
-            icon: RectangleGroupIcon,
-            iconSolid: RectangleGroupIcon,
-        },
+        // {
+        //     title: "Kelas & Jadwal",
+        //     href: "/admin/kelas-jadwal",
+        //     icon: RectangleGroupIcon,
+        //     iconSolid: RectangleGroupIcon,
+        // },
         {
             title: "Mata Pelajaran",
             href: "/admin/mata-pelajaran",
@@ -137,7 +137,51 @@ export const sidebarMenus: Record<string, MenuItem[]> = {
             href: "/guru/dashboard",
             icon: HomeIcon,
             iconSolid: HomeModernIcon,
-        }
+        },
+        {
+            title: "Jadwal Mengajar",
+            href: "/guru/jadwal-mengajar",
+            icon: CalendarIcon,
+            iconSolid: CalendarDaysIcon,
+        },
+        {
+            title: "Mata Pelajaran",
+            href: "/guru/mata-pelajaran",
+            icon: BookOpenIcon,
+            iconSolid: BookOpenIcon,
+        },
+        {
+            title: "Absensi",
+            href: "/guru/absensi",
+            icon: ClipboardDocumentCheckIcon,
+            iconSolid: ClipboardDocumentListIcon,
+        },
+
+        {
+            title: "Riwayat Absensi",
+            href: "/guru/riwayat-absensi",
+            icon: ClipboardDocumentListIcon,
+            iconSolid: ClipboardDocumentListIcon,
+        },
+        // {
+        //     title: "Nilai Siswa",
+        //     href: "/guru/nilai-siswa",
+        //     icon: ChartBarIcon,
+        //     iconSolid: ChartBarIcon,
+        // },
+        // {
+        //     title: "Pelanggaran Siswa",
+        //     href: "/guru/pelanggaran-siswa",
+        //     icon: ExclamationTriangleIcon,
+        //     iconSolid: ExclamationTriangleIcon,
+        // },
+        // {
+        //     title: "Aktivitas Siswa",
+        //     href: "/guru/aktivitas-siswa",
+        //     icon: SparklesIcon,
+        //     iconSolid: SparklesIcon,
+        // }
+
     ],
     WALI_KELAS: [
         {
