@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma"; // asumsikan sudah ada
 import { z } from "zod";
 import { createGuruSchema } from "@/validations/guruSchema"; // asumsi kamu validasi pakai zod
+import { hashPassword } from "@/lib/auth/password";
 
 
 export async function GET() {
@@ -19,11 +20,14 @@ export async function POST(req: Request) {
 
         const { username, password, email, phoneNumber, nama, nip } = data;
 
+        // ✅ Enkripsi password
+        const hashedPassword = await hashPassword(password);
+
         // 1. Buat user terlebih dahulu
         const user = await prisma.user.create({
             data: {
                 username,
-                password,
+                password: hashedPassword, // ✅ simpan yang sudah dienkripsi
                 email,
                 phoneNumber,
                 role: "GURU",
