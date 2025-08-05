@@ -8,6 +8,7 @@ import { Chip } from "@heroui/chip";
 import { Link } from "@heroui/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { Tooltip } from "@heroui/tooltip";
 
 import { sidebarMenus } from "@/config/sidebarMenus";
 
@@ -131,12 +132,24 @@ export default function Sidebar({
       </div>
 
       {/* Navigation Menu - Scrollable */}
-      <nav className="flex-1 p-2 overflow-y-auto">
+      <nav
+        className="flex-1 p-2 overflow-y-auto"
+        style={{
+          scrollbarWidth: "thin",
+          scrollbarColor: "rgba(255,255,255,0.2) transparent",
+        }}
+      >
         <ul className="space-y-2">
           {menuItems.map((item, index) => {
             const isActive = isMenuItemActive(item);
             const hasSubmenu = item.submenu && item.submenu.length > 0;
             const isSubmenuExpanded = expandedSubmenus.includes(item.title);
+
+            const baseClass = `flex items-center p-3 rounded-lg transition-all duration-300 transform hover:scale-[1.02] hover:shadow-lg relative overflow-hidden ${
+              isActive
+                ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white border border-blue-400/50 shadow-lg"
+                : "text-blue-100 hover:bg-gradient-to-r hover:from-blue-700/50 hover:to-blue-600/50 hover:text-white hover:shadow-md"
+            }`;
 
             return (
               <li
@@ -150,39 +163,41 @@ export default function Sidebar({
               >
                 <div className="relative group">
                   {hasSubmenu ? (
-                    <button
-                      className={`w-full flex items-center justify-between p-3 rounded-lg transition-all duration-300 group/button transform hover:scale-[1.02] hover:shadow-lg ${
-                        isActive
-                          ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white border border-blue-400/50 shadow-lg"
-                          : "text-blue-100 hover:bg-gradient-to-r hover:from-blue-700/50 hover:to-blue-600/50 hover:text-white hover:shadow-md"
-                      }`}
-                      onClick={() => {
-                        if (!isCollapsed) {
-                          toggleSubmenu(item.title);
-                        }
-                      }}
-                    >
-                      <div className="flex items-center space-x-3">
-                        <div className="relative">
+                    isCollapsed ? (
+                      <Tooltip content={item.title}>
+                        <button
+                          className={`${baseClass} w-full justify-center`}
+                          onClick={() => {
+                            if (!isCollapsed) toggleSubmenu(item.title);
+                          }}
+                        >
                           <item.icon
-                            className={`w-5 h-5 transition-all duration-300 group/button-hover:scale-110 ${
-                              isActive
-                                ? "text-white"
-                                : "text-blue-200 group/button-hover:text-white"
+                            className={`w-5 h-5 ${
+                              isActive ? "text-white" : "text-blue-200"
                             }`}
                           />
-                          {isActive && (
-                            <div className="absolute -inset-1 bg-blue-300 rounded-full opacity-30 animate-pulse" />
-                          )}
-                        </div>
-                        {!isCollapsed && (
-                          <span className="font-medium text-sm transition-all duration-300">
+                        </button>
+                      </Tooltip>
+                    ) : (
+                      <button
+                        className={`${baseClass} w-full justify-between group/button`}
+                        onClick={() => toggleSubmenu(item.title)}
+                      >
+                        <div className="flex items-center space-x-3">
+                          <div className="relative">
+                            <item.icon
+                              className={`w-5 h-5 transition-all duration-300 group-hover:scale-110 ${
+                                isActive ? "text-white" : "text-blue-200"
+                              }`}
+                            />
+                            {isActive && (
+                              <div className="absolute -inset-1 bg-blue-300 rounded-full opacity-30 animate-pulse" />
+                            )}
+                          </div>
+                          <span className="font-medium text-sm">
                             {item.title}
                           </span>
-                        )}
-                      </div>
-
-                      {!isCollapsed && (
+                        </div>
                         <div className="flex items-center space-x-2">
                           {item.badge && (
                             <Chip
@@ -198,142 +213,122 @@ export default function Sidebar({
                             className={`w-4 h-4 transition-all duration-300 ${
                               isSubmenuExpanded
                                 ? "rotate-90 text-white"
-                                : "group/button-hover:translate-x-1 text-blue-200"
+                                : "text-blue-200"
                             }`}
                           />
                         </div>
-                      )}
-
-                      {/* Hover effect line */}
-                      <div
-                        className={`absolute left-0 top-0 bottom-0 w-1 bg-blue-300 transition-all duration-300 ${
-                          isActive
-                            ? "opacity-100"
-                            : "opacity-0 group/button-hover:opacity-100"
-                        } rounded-r-full`}
-                      />
-                    </button>
+                      </button>
+                    )
+                  ) : isCollapsed ? (
+                    <Tooltip content={item.title} key={item.title} placement="right" showArrow >
+                      <Link
+                        className={`${baseClass} justify-center`}
+                        href={item.href}
+                        onClick={handleMenuClick}
+                      >
+                        <item.icon
+                          className={`w-5 h-5 ${
+                            isActive ? "text-white" : "text-blue-200"
+                          }`}
+                        />
+                      </Link>
+                    </Tooltip>
                   ) : (
                     <Link
-                      className={`flex items-center p-3 rounded-lg transition-all duration-300 group/link transform hover:scale-[1.02] hover:shadow-lg relative overflow-hidden ${
-                        isActive
-                          ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white border border-blue-400/50 shadow-lg"
-                          : "text-blue-100 hover:bg-gradient-to-r hover:from-blue-700/50 hover:to-blue-600/50 hover:text-white hover:shadow-md"
-                      }`}
+                      className={baseClass}
                       href={item.href}
-                      onClick={handleMenuClick} // Auto close on mobile
+                      onClick={handleMenuClick}
                     >
                       <div className="relative">
                         <item.icon
-                          className={`w-5 h-5 transition-all duration-300 group/link-hover:scale-110 ${
-                            isActive
-                              ? "text-white"
-                              : "text-blue-200 group/link-hover:text-white"
+                          className={`w-5 h-5 transition-all duration-300 group-hover:scale-110 ${
+                            isActive ? "text-white" : "text-blue-200"
                           }`}
                         />
                         {isActive && (
                           <div className="absolute -inset-1 bg-blue-300 rounded-full opacity-30 animate-pulse" />
                         )}
                       </div>
-                      {!isCollapsed && (
-                        <>
-                          <span className="ml-3 font-medium text-sm transition-all duration-300">
-                            {item.title}
-                          </span>
-                          {item.badge && (
-                            <Chip
-                              className="ml-auto animate-in zoom-in duration-300 hover:scale-110 transition-transform"
-                              color="danger"
-                              size="sm"
-                              variant="flat"
-                            >
-                              {item.badge}
-                            </Chip>
-                          )}
-                        </>
+                      <span className="ml-3 font-medium text-sm">
+                        {item.title}
+                      </span>
+                      {item.badge && (
+                        <Chip
+                          className="ml-auto animate-in zoom-in duration-300 hover:scale-110 transition-transform"
+                          color="danger"
+                          size="sm"
+                          variant="flat"
+                        >
+                          {item.badge}
+                        </Chip>
                       )}
-
-                      {/* Hover effect line */}
-                      <div
-                        className={`absolute left-0 top-0 bottom-0 w-1 bg-blue-300 transition-all duration-300 ${
-                          isActive
-                            ? "opacity-100"
-                            : "opacity-0 group/link-hover:opacity-100"
-                        } rounded-r-full`}
-                      />
-
-                      {/* Ripple effect on click */}
-                      <div className="absolute inset-0 bg-blue-300 opacity-0 group/link-active:opacity-20 transition-opacity duration-150 rounded-lg" />
                     </Link>
                   )}
-                </div>
 
-                {/* Submenu with enhanced animations */}
-                {hasSubmenu && !isCollapsed && (
-                  <div
-                    className={`overflow-hidden transition-all duration-500 ease-out ${
-                      isSubmenuExpanded
-                        ? "max-h-96 opacity-100"
-                        : "max-h-0 opacity-0"
-                    }`}
-                  >
-                    <ul className="mt-2 ml-8 space-y-1">
-                      {item.submenu!.map((subItem, subIndex) => {
-                        const isSubItemActive = isSubmenuItemActive(
-                          subItem.href
-                        );
-
-                        return (
-                          <li
-                            key={subItem.title}
-                            className={`transform transition-all duration-300 ${
-                              isSubmenuExpanded
-                                ? "translate-x-0 opacity-100"
-                                : "-translate-x-4 opacity-0"
-                            }`}
-                            style={{
-                              transitionDelay: isSubmenuExpanded
-                                ? `${subIndex * 100}ms`
-                                : "0ms",
-                            }}
-                          >
-                            <Link
-                              className={`flex items-center p-2 text-sm rounded-md transition-all duration-300 transform hover:scale-105 hover:translate-x-2 group/sublink relative ${
-                                isSubItemActive
-                                  ? "bg-gradient-to-r from-blue-600/70 to-blue-500/70 text-white"
-                                  : "text-blue-200 hover:bg-gradient-to-r hover:from-blue-600/50 hover:to-blue-500/50 hover:text-white"
+                  {/* Submenu */}
+                  {hasSubmenu && !isCollapsed && (
+                    <div
+                      className={`overflow-hidden transition-all duration-500 ease-out ${
+                        isSubmenuExpanded
+                          ? "max-h-96 opacity-100"
+                          : "max-h-0 opacity-0"
+                      }`}
+                    >
+                      <ul className="mt-2 ml-8 space-y-1">
+                        {item.submenu!.map((subItem, subIndex) => {
+                          const isSubItemActive = isSubmenuItemActive(
+                            subItem.href
+                          );
+                          return (
+                            <li
+                              key={subItem.title}
+                              className={`transform transition-all duration-300 ${
+                                isSubmenuExpanded
+                                  ? "translate-x-0 opacity-100"
+                                  : "-translate-x-4 opacity-0"
                               }`}
-                              href={subItem.href}
-                              onClick={handleMenuClick} // Auto close on mobile untuk submenu juga
+                              style={{
+                                transitionDelay: isSubmenuExpanded
+                                  ? `${subIndex * 100}ms`
+                                  : "0ms",
+                              }}
                             >
-                              <div
-                                className={`w-2 h-2 rounded-full mr-3 transition-all duration-300 ${
+                              <Link
+                                className={`flex items-center p-2 text-sm rounded-md transition-all duration-300 transform hover:scale-105 hover:translate-x-2 group/sublink relative ${
                                   isSubItemActive
-                                    ? "bg-blue-100 scale-125"
-                                    : "bg-blue-300 group/sublink-hover:bg-blue-100 group/sublink-hover:scale-125"
+                                    ? "bg-gradient-to-r from-blue-600/70 to-blue-500/70 text-white"
+                                    : "text-blue-200 hover:bg-gradient-to-r hover:from-blue-600/50 hover:to-blue-500/50 hover:text-white"
                                 }`}
-                              />
-                              <span className="transition-all duration-300">
-                                {subItem.title}
-                              </span>
-
-                              {/* Submenu hover indicator */}
-                              <div
-                                className={`absolute right-2 transition-all duration-300 transform ${
-                                  isSubItemActive
-                                    ? "opacity-100 translate-x-0"
-                                    : "opacity-0 translate-x-2 group/sublink-hover:opacity-100 group/sublink-hover:translate-x-0"
-                                }`}
+                                href={subItem.href}
+                                onClick={handleMenuClick}
                               >
-                                <div className="w-1 h-4 bg-blue-300 rounded-full" />
-                              </div>
-                            </Link>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                )}
+                                <div
+                                  className={`w-2 h-2 rounded-full mr-3 transition-all duration-300 ${
+                                    isSubItemActive
+                                      ? "bg-blue-100 scale-125"
+                                      : "bg-blue-300 group-hover:bg-blue-100 group-hover:scale-125"
+                                  }`}
+                                />
+                                <span className="transition-all duration-300">
+                                  {subItem.title}
+                                </span>
+                                <div
+                                  className={`absolute right-2 transition-all duration-300 transform ${
+                                    isSubItemActive
+                                      ? "opacity-100 translate-x-0"
+                                      : "opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
+                                  }`}
+                                >
+                                  <div className="w-1 h-4 bg-blue-300 rounded-full" />
+                                </div>
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  )}
+                </div>
               </li>
             );
           })}
