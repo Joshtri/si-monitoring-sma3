@@ -22,6 +22,43 @@ export async function GET(req: NextRequest) {
         username: true,
         email: true,
         role: true,
+        guru: {
+          select: {
+            id: true,
+            nama: true,
+            nip: true,
+            waliKelas: {
+              select: {
+                id: true,
+                kelas: true,
+                tahunAjaran: {
+                  select: {
+                    tahun: true,
+                    aktif: true,
+                  },
+                },
+              },
+            },
+            mapel: {
+              include: {
+                mataPelajaran: true,
+              },
+            },
+          },
+        },
+        orangTua: {
+          select: {
+            id: true,
+            nama: true,
+            anak: {
+              select: {
+                id: true,
+                namaDepan: true,
+                namaBelakang: true,
+              },
+            },
+          },
+        },
       },
     })
 
@@ -29,9 +66,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ message: "User tidak ditemukan" }, { status: 404 })
     }
 
-    return NextResponse.json({
-      user,
-    })
+    return NextResponse.json({ user })
   } catch (error) {
     console.error("Get current user error:", error)
     return NextResponse.json({ message: "Terjadi kesalahan server" }, { status: 500 })
