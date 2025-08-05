@@ -60,6 +60,18 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
         const body = await req.json();
         const { kelasTahunAjaranId, hari, jamKe, guruMapelId } = body;
 
+        if (!kelasTahunAjaranId || !hari || typeof jamKe !== 'number' || !guruMapelId) {
+            return NextResponse.json({ message: "Invalid input" }, { status: 400 });
+        }
+
+        const existing = await prisma.jadwalPelajaran.findUnique({
+            where: { id: params.id },
+        });
+
+        if (!existing) {
+            return NextResponse.json({ message: "Jadwal not found" }, { status: 404 });
+        }
+
         const updated = await prisma.jadwalPelajaran.update({
             where: { id: params.id },
             data: {
@@ -72,9 +84,11 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
 
         return NextResponse.json(updated);
     } catch (error) {
+        console.error("Update error:", error);
         return NextResponse.json({ message: "Gagal memperbarui jadwal", error }, { status: 500 });
     }
 }
+
 
 
 // DELETE /api/jadwal/:id
