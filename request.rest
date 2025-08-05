@@ -2,11 +2,11 @@ POST http://localhost:3000/api/users
 Content-Type: application/json
 
 {
-  "username": "1234444",
-  "email": "tes@gmail.com",
+  "username": "admin",
+  "email": "admin@gmail.com",
   "role": "ADMIN",
-  "password": "0987654321",
-  "phoneNumber": "0867324332"
+  "password": "12345678",
+  "phoneNumber": "12345678"
 }
 
 
