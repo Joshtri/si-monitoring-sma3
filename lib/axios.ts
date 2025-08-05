@@ -48,7 +48,7 @@ api.interceptors.response.use(
       console.warn("Unauthorized: Redirecting to login")
       if (typeof window !== "undefined") {
         localStorage.removeItem("token")
-        window.location.href = "/login"
+        window.location.href = "/"
       }
     }
 
