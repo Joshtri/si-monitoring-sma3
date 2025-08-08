@@ -74,9 +74,12 @@ export default function AttendanceSummaryCard() {
     return (
         <Card>
             <CardHeader>
+                <div className="flex flex-col gap-2">
+
                 <div className="text-xl font-bold">Ringkasan Kehadiran</div>
                 <div className="text-sm text-default-500">
                     Gambaran status kehadiran untuk bulan ini.
+                </div>
                 </div>
             </CardHeader>
             <CardBody>
