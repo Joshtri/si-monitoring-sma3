@@ -57,9 +57,12 @@ export default function StudentsPerClassChart() {
     return (
         <Card>
             <CardHeader>
+                <div className="flex flex-col gap-2">
+
                 <div className="text-xl font-bold">Siswa Per Kelas</div>
                 <div className="text-sm text-default-500">
                     Jumlah siswa di setiap kelas untuk tahun ajaran aktif.
+                </div>
                 </div>
             </CardHeader>
             <CardBody>
