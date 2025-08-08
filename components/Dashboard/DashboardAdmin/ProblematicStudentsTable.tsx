@@ -56,9 +56,12 @@ export default function ProblematicStudentsTable() {
     return (
         <Card>
             <CardHeader>
+                <div className="flex flex-col gap-2">
+
                 <div className="text-xl font-bold">Siswa Bermasalah</div>
                 <div className="text-sm text-default-500">
                     Siswa dengan ketidakhadiran terbanyak bulan ini.
+                </div>
                 </div>
             </CardHeader>
             <CardBody>
