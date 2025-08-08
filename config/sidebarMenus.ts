@@ -1,4 +1,4 @@
-import { AcademicCapIcon, BookOpenIcon, CalendarDaysIcon, CalendarIcon, ChartBarIcon, ClipboardDocumentCheckIcon, ClipboardDocumentListIcon, DocumentChartBarIcon, ExclamationTriangleIcon, HomeModernIcon, IdentificationIcon, SparklesIcon, UsersIcon } from "@heroicons/react/24/outline";
+import { AcademicCapIcon, BookOpenIcon, BuildingLibraryIcon, BuildingOffice2Icon, CalendarDaysIcon, CalendarIcon, ChartBarIcon, ChartBarSquareIcon, ClipboardDocumentCheckIcon, ClipboardDocumentListIcon, DocumentChartBarIcon, ExclamationCircleIcon, ExclamationTriangleIcon, HomeModernIcon, IdentificationIcon, SparklesIcon, StarIcon, UsersIcon } from "@heroicons/react/24/outline";
 import { HomeIcon, RectangleGroupIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 
 export interface MenuItem {
@@ -163,24 +163,24 @@ export const sidebarMenus: Record<string, MenuItem[]> = {
             icon: ClipboardDocumentListIcon,
             iconSolid: ClipboardDocumentListIcon,
         },
-        // {
-        //     title: "Nilai Siswa",
-        //     href: "/guru/nilai-siswa",
-        //     icon: ChartBarIcon,
-        //     iconSolid: ChartBarIcon,
-        // },
-        // {
-        //     title: "Pelanggaran Siswa",
-        //     href: "/guru/pelanggaran-siswa",
-        //     icon: ExclamationTriangleIcon,
-        //     iconSolid: ExclamationTriangleIcon,
-        // },
-        // {
-        //     title: "Aktivitas Siswa",
-        //     href: "/guru/aktivitas-siswa",
-        //     icon: SparklesIcon,
-        //     iconSolid: SparklesIcon,
-        // }
+        {
+            title: "Nilai Siswa",
+            href: "/guru/nilai-siswa",
+            icon: ChartBarIcon,
+            iconSolid: ChartBarIcon,
+        },
+        {
+            title: "Pelanggaran Siswa",
+            href: "/guru/pelanggaran-siswa",
+            icon: ExclamationTriangleIcon,
+            iconSolid: ExclamationTriangleIcon,
+        },
+        {
+            title: "Aktivitas Siswa",
+            href: "/guru/aktivitas-siswa",
+            icon: SparklesIcon,
+            iconSolid: SparklesIcon,
+        }
 
     ],
     WALI_KELAS: [
@@ -193,10 +193,41 @@ export const sidebarMenus: Record<string, MenuItem[]> = {
     ],
     ORANG_TUA: [
         {
-            title: "Dashboard",
+            title: "Beranda",
             href: "/orang-tua/dashboard",
             icon: HomeIcon,
             iconSolid: HomeModernIcon,
-        }
-    ],
+        },
+        {
+            title: "Riwayat Absensi",
+            href: "/orang-tua/absensi",
+            icon: CalendarIcon,
+            iconSolid: CalendarDaysIcon,
+        },
+        {
+            title: "Riwayat Nilai",
+            href: "/orang-tua/nilai",
+            icon: ChartBarIcon,
+            iconSolid: ChartBarSquareIcon,
+        },
+        {
+            title: "Riwayat Pelanggaran",
+            href: "/orang-tua/pelanggaran",
+            icon: ExclamationCircleIcon,
+            iconSolid: ExclamationTriangleIcon,
+        },
+        {
+            title: "Kegiatan Anak",
+            href: "/orang-tua/aktivitas",
+            icon: SparklesIcon,
+            iconSolid: StarIcon,
+        },
+        {
+            title: "Informasi Kelas",
+            href: "/orang-tua/kelas",
+            icon: BuildingLibraryIcon,
+            iconSolid: BuildingOffice2Icon,
+        },
+    ]
+
 };
