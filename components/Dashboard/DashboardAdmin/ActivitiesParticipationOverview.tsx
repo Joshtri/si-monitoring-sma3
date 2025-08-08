@@ -66,9 +66,12 @@ export default function ActivitiesParticipationOverview() {
     return (
         <Card className="w-full">
             <CardHeader>
+                <div className="flex flex-col gap-2">
+
                 <div className="text-xl font-bold">Partisipasi Kegiatan</div>
                 <div className="text-sm text-default-500">
                     Gambaran umum kegiatan siswa.
+                </div>
                 </div>
             </CardHeader>
             <CardBody className="space-y-10">
