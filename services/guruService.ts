@@ -105,3 +105,33 @@ export async function getDetailRiwayatAbsensi(kelasId: string) {
   const res = await api.get(`/api/guru/absensi/riwayat/${kelasId}`);
   return res.data;
 }
+
+export async function checkIsWaliKelas(): Promise<boolean> {
+  const res = await api.get("/api/guru/is-wali-kelas");
+  return res.data?.isWaliKelas ?? false;
+}
+
+
+
+export async function getPelanggaranSiswa() {
+  const res = await api.get("/api/guru/pelanggaran");
+  return res.data;
+}
+
+
+export async function getSiswaWaliKelas() {
+  const res = await api.get("/api/guru/pelanggaran/siswa");
+  return res.data;
+}
+
+export async function createPelanggaran(data: any) {
+  console.log("KIRIM PELANGGARAN:", data); // debug
+  const res = await api.post("/api/guru/pelanggaran", data);
+  return res.data;
+}
+
+
+export const getMataPelajaranKelasWali = async () => {
+  const res = await api.get("/api/guru/nilai-siswa/mapel");
+  return res.data;
+};
