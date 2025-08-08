@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation";
 import { Tooltip } from "@heroui/tooltip";
 
 import { sidebarMenus } from "@/config/sidebarMenus";
+import { checkIsWaliKelas } from "@/services/guruService"; // import service
 
 interface SidebarProps {
   userRole: "ADMIN" | "GURU" | "WALI_KELAS" | "ORANG_TUA";
@@ -32,6 +33,7 @@ export default function Sidebar({
 }: SidebarProps) {
   const pathname = usePathname();
   const [expandedSubmenus, setExpandedSubmenus] = useState<string[]>([]);
+  const [isWaliKelas, setIsWaliKelas] = useState(false);
 
   const toggleSubmenu = (menuTitle: string) => {
     setExpandedSubmenus((prev) =>
@@ -41,7 +43,18 @@ export default function Sidebar({
     );
   };
 
-  const menuItems: MenuItem[] = sidebarMenus[userRole] ?? [];
+  let menuItems: MenuItem[] = sidebarMenus[userRole] ?? [];
+
+  if (userRole === "GURU" && !isWaliKelas) {
+    const hiddenForNonWali = [
+      "Nilai Siswa",
+      "Pelanggaran Siswa",
+      "Aktivitas Siswa",
+    ];
+    menuItems = menuItems.filter(
+      (item) => !hiddenForNonWali.includes(item.title)
+    );
+  }
 
   // Function to handle menu click - auto close on mobile
   const handleMenuClick = () => {
@@ -95,6 +108,12 @@ export default function Sidebar({
       }
     });
   }, [pathname, menuItems]);
+
+  useEffect(() => {
+    if (userRole === "GURU") {
+      checkIsWaliKelas().then(setIsWaliKelas);
+    }
+  }, [userRole]);
 
   return (
     <aside
@@ -220,7 +239,12 @@ export default function Sidebar({
                       </button>
                     )
                   ) : isCollapsed ? (
-                    <Tooltip content={item.title} key={item.title} placement="right" showArrow >
+                    <Tooltip
+                      content={item.title}
+                      key={item.title}
+                      placement="right"
+                      showArrow
+                    >
                       <Link
                         className={`${baseClass} justify-center`}
                         href={item.href}
