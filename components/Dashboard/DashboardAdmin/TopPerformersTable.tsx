@@ -56,9 +56,12 @@ export default function TopPerformersTable() {
     return (
         <Card className="w-full">
             <CardHeader className="pb-0">
+                <div className="flex flex-col gap-2">
+
                 <div className="text-xl font-bold">Siswa Terbaik</div>
                 <div className="text-sm text-default-500">
                     Siswa dengan rata-rata nilai tertinggi.
+                </div>
                 </div>
             </CardHeader>
             <CardBody className="px-0 pt-2 pb-4">
