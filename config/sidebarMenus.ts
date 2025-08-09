@@ -100,30 +100,7 @@ export const sidebarMenus: Record<string, MenuItem[]> = {
             icon: BookOpenIcon,
             iconSolid: BookOpenIcon,
         },
-        {
-            title: "Presensi",
-            href: "/admin/presensi",
-            icon: ClipboardDocumentCheckIcon,
-            iconSolid: ClipboardDocumentCheckIcon,
-        },
-        // {
-        //     title: "Nilai Siswa",
-        //     href: "/admin/nilai",
-        //     icon: ChartBarIcon,
-        //     iconSolid: ChartBarIcon,
-        // },
-        {
-            title: "Pelanggaran",
-            href: "/admin/pelanggaran",
-            icon: ExclamationTriangleIcon,
-            iconSolid: ExclamationTriangleIcon,
-        },
-        {
-            title: "Aktivitas",
-            href: "/admin/aktivitas",
-            icon: SparklesIcon,
-            iconSolid: SparklesIcon,
-        },
+
         {
             title: "Laporan",
             href: "/admin/laporan",
